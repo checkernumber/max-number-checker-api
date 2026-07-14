@@ -1,0 +1,38 @@
+# MAX Number Checker API
+
+> Official CheckNumber code examples for a bulk, asynchronous API used to verify MAX messenger registration and optionally retrieve documented profile fields.
+
+Base URL: https://api.checknumber.ai
+Authentication: X-API-Key request header
+
+## Workflow
+
+1. Submit: POST https://api.checknumber.ai/v1/tasks with `file` and `task_type=max`.
+2. Poll: POST https://api.checknumber.ai/v1/gettasks with `task_id`.
+3. Download: retrieve `result_url` after status becomes `exported`.
+
+## Variants
+
+- `task_type=max` — MAX Number Checker: https://docs.checknumber.ai/max-checker
+- `task_type=max_full` — MAX Full Profile Checker: https://docs.checknumber.ai/max-full-checker
+
+## Pricing
+
+Current terms: https://checknumber.ai/pricing
+Balance endpoint: GET https://api.checknumber.ai/v1/balance
+
+## Docs
+
+- Canonical documentation: https://docs.checknumber.ai/max-checker
+- Dashboard and API keys: https://platform.checknumber.ai
+
+## Code examples
+
+- examples/python
+- examples/nodejs
+- examples/go
+- examples/java
+- examples/csharp
+- examples/php
+- examples/javascript
+- examples/shell
