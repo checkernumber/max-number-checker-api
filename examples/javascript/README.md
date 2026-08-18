@@ -1,7 +1,6 @@
-# JavaScript (browser) example
+# Browser JavaScript example
 
-Browser-side usage with `fetch` + `FormData`, driven by a file input.
-
-> **Security:** never expose your API key in production client-side code. Proxy these requests through your own backend. This example shows the raw request shape only.
-
-Submits to `POST /v1/tasks` (`task_type=max`), polls `POST /v1/gettasks`, returns the result URL. For a server-side Node.js version see [`../nodejs`](../nodejs). Full docs: https://docs.checknumber.ai/max-checker
+Browser code must never hold an API key. This example calls a same-origin
+backend proxy endpoint (`/api/async-check-proxy`) that your server implements;
+the proxy is responsible for submitting the task, polling for completion, and
+returning (or downloading) the result server-side.

@@ -1,13 +1,20 @@
 openapi: 3.0.3
 info:
   title: MAX Number Checker API
-  description: Bulk asynchronous file-based API used to verify MAX messenger registration and optionally retrieve documented profile fields.
-  version: "1.0.0"
+  version: 1.0.0
+  description: >
+    Official CheckNumber asynchronous file-based API for the MAX
+    product family. Upload an authorized list, poll the task, then download the
+    exported result file. Product limits and result columns are listed in product.json.
   contact:
     name: CheckNumber
-    url: https://docs.checknumber.ai/max-checker
+    url: https://checknumber.ai/products/max
   license:
     name: MIT
+    url: https://opensource.org/license/mit
+externalDocs:
+  description: CheckNumber MAX API documentation
+  url: https://docs.checknumber.ai/max-checker
 servers:
   - url: https://api.checknumber.ai
 security:
@@ -15,7 +22,7 @@ security:
 paths:
   /v1/tasks:
     post:
-      summary: Submit a bulk MAX verification task
+      summary: Submit an asynchronous MAX task
       requestBody:
         required: true
         content:
@@ -27,24 +34,29 @@ paths:
                 file:
                   type: string
                   format: binary
-                  description: Text file containing one phone number or email address per line, according to task_type.
+                  description: Text file with one identifier per line. Use E.164 phones or valid emails as documented.
                 task_type:
                   type: string
                   enum: [max, max_full]
       responses:
-        "200":
-          description: Task created
+        '200':
+          description: Task accepted by deployments using the legacy success status
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/Task"
-        "400":
-          description: Invalid parameters or file format
-        "500":
-          description: Internal server error
+              schema: { $ref: '#/components/schemas/Task' }
+        '202':
+          description: Task accepted
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Task' }
+        '400': { description: Invalid file, task type, or row count }
+        '401': { description: Missing or invalid API key }
+        '402': { description: Insufficient balance }
+        '413': { description: Uploaded file is too large }
+        '500': { description: Internal server error }
   /v1/gettasks:
     post:
-      summary: Check task status
+      summary: Check the status of an asynchronous task
       requestBody:
         required: true
         content:
@@ -53,25 +65,26 @@ paths:
               type: object
               required: [task_id]
               properties:
-                task_id:
-                  type: string
+                task_id: { type: string }
       responses:
-        "200":
+        '200':
           description: Current task state
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/Task"
-        "400":
-          description: Invalid task ID
-        "500":
-          description: Internal server error
+              schema: { $ref: '#/components/schemas/Task' }
+        '401': { description: Missing or invalid API key }
+        '404': { description: Task not found }
+        '500': { description: Internal server error }
   /v1/balance:
     get:
       summary: Get account balance
       responses:
-        "200":
+        '200':
           description: Current balance
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Balance' }
+        '401': { description: Missing or invalid API key }
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -79,6 +92,11 @@ components:
       in: header
       name: X-API-Key
   schemas:
+    Balance:
+      type: object
+      required: [balance]
+      properties:
+        balance: { type: number, format: double }
     Task:
       type: object
       properties:
@@ -90,6 +108,7 @@ components:
         total: { type: integer }
         success: { type: integer }
         failure: { type: integer }
-        result_url: { type: string }
+        result_url: { type: string, format: uri }
+        message: { type: string }
         created_at: { type: string, format: date-time }
         updated_at: { type: string, format: date-time }

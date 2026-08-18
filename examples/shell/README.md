@@ -1,10 +1,8 @@
-# Shell (curl) example
+# Shell example
 
+Implements the full submit -> poll -> download workflow with HTTP error handling.
 Requires `curl` and `jq`.
 
 ```bash
-export CHECKNUMBER_API_KEY="YOUR_API_KEY"
-./max_checker.sh numbers.txt   # one E.164 number per line
+CHECKNUMBER_API_KEY=your_key ./example.sh
 ```
-
-Submits to `POST /v1/tasks` (`task_type=max`), polls `POST /v1/gettasks`, downloads results. Full docs: https://docs.checknumber.ai/max-checker

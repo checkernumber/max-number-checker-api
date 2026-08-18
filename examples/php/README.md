@@ -1,10 +1,8 @@
 # PHP example
 
-Requires PHP 7.4+ with the cURL extension.
+Implements the full submit -> poll -> download workflow with HTTP error handling.
+Requires PHP with the curl extension.
 
 ```bash
-export CHECKNUMBER_API_KEY="YOUR_API_KEY"
-php max_checker.php   # reads numbers.txt (one E.164 number per line)
+CHECKNUMBER_API_KEY=your_key php example.php
 ```
-
-Submits to `POST /v1/tasks` (`task_type=max`), polls `POST /v1/gettasks`, downloads results. Full docs: https://docs.checknumber.ai/max-checker

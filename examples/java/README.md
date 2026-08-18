@@ -1,12 +1,9 @@
 # Java example
 
-Requires Java 11+ (uses `java.net.http.HttpClient`, no external dependencies).
+Implements the full submit -> poll -> download workflow with HTTP error handling.
+Requires JDK 11+ (uses `java.net.http.HttpClient`).
 
 ```bash
-export CHECKNUMBER_API_KEY="YOUR_API_KEY"
-java MAXChecker.java   # reads numbers.txt (one E.164 number per line)
+javac ApiExample.java
+CHECKNUMBER_API_KEY=your_key java ApiExample
 ```
-
-Submits to `POST /v1/tasks` (`task_type=max`), polls `POST /v1/gettasks`, prints the result URL.
-
-> This example keeps JSON/multipart handling dependency-free for readability. In production, use a JSON library (Jackson/Gson) and a multipart helper. Full docs: https://docs.checknumber.ai/max-checker

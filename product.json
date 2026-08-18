@@ -1,10 +1,15 @@
 {
   "name": "MAX Number Checker API",
+  "brand": "CheckNumber",
   "slug": "max-number-checker-api",
-  "description": "Bulk asynchronous file-based API used to verify MAX messenger registration and optionally retrieve documented profile fields.",
+  "repository": "checkernumber/max-number-checker-api",
+  "description": "Asynchronous file-based MAX checks.",
+  "official_site": "https://checknumber.ai",
+  "landing_page": "https://checknumber.ai/products/max",
   "canonical_docs": "https://docs.checknumber.ai/max-checker",
   "dashboard": "https://platform.checknumber.ai",
   "base_url": "https://api.checknumber.ai",
+  "mode": "async",
   "auth": {
     "type": "api_key",
     "header": "X-API-Key"
@@ -24,34 +29,36 @@
     }
   },
   "input": {
-    "file_format": "text; one E.164 phone number per line, or one email per line for email task types"
+    "file_format": "text file, one E.164 phone number per line according to task type"
   },
-  "result_fields": [
-    {
-      "field": "Number",
-      "description": "Phone number in E.164 format",
-      "example": "+79991234567"
-    },
-    {
-      "field": "max",
-      "description": "Whether the number is registered on MAX messenger",
-      "example": "yes, no"
-    }
-  ],
   "products": [
     {
       "task_type": "max",
-      "name": "MAX Number Checker",
+      "name": "Number Checker",
       "doc_slug": "max-checker",
-      "input_kind": "phone"
+      "input_kind": "phone",
+      "min_numbers": 1000,
+      "max_numbers": 10000000,
+      "result_fields": [
+        "number",
+        "activated"
+      ]
     },
     {
       "task_type": "max_full",
-      "name": "MAX Full Profile Checker",
+      "name": "Profile Checker",
       "doc_slug": "max-full-checker",
-      "input_kind": "phone"
+      "input_kind": "phone",
+      "min_numbers": 1000,
+      "max_numbers": 10000000,
+      "result_fields": [
+        "number",
+        "activated"
+      ]
     }
   ],
   "pricing_url": "https://checknumber.ai/pricing",
-  "last_updated": "2026-07-13"
+  "maintainer": "CheckNumber",
+  "license": "MIT",
+  "last_reviewed": "2026-08-18"
 }

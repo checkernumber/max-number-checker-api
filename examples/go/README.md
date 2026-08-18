@@ -1,10 +1,7 @@
 # Go example
 
-Standard library only.
+Implements the full submit -> poll -> download workflow with HTTP error handling.
 
 ```bash
-export CHECKNUMBER_API_KEY="YOUR_API_KEY"
-go run main.go   # reads numbers.txt (one E.164 number per line)
+CHECKNUMBER_API_KEY=your_key go run main.go
 ```
-
-Submits to `POST /v1/tasks` (`task_type=max`), polls `POST /v1/gettasks`, returns the result URL. Full docs: https://docs.checknumber.ai/max-checker

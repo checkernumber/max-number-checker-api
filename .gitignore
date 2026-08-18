@@ -1,5 +1,4 @@
 # Result / build artifacts
-results.xlsx
 *.xlsx
 input.txt
 
@@ -9,3 +8,10 @@ node_modules/
 bin/
 obj/
 *.class
+# Local secrets and generated output
+.env
+.env.*
+!.env.example
+result.zip
+*.log
+.DS_Store

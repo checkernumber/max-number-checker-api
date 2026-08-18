@@ -1,10 +1,8 @@
 # C# example
 
-Requires .NET 6+.
+Implements the full submit -> poll -> download workflow with HTTP error handling.
+Requires the .NET 8 SDK.
 
 ```bash
-export CHECKNUMBER_API_KEY="YOUR_API_KEY"
-dotnet run   # reads numbers.txt (one E.164 number per line)
+CHECKNUMBER_API_KEY=your_key dotnet run --project .
 ```
-
-Submits to `POST /v1/tasks` (`task_type=max`), polls `POST /v1/gettasks`, downloads results. Full docs: https://docs.checknumber.ai/max-checker
