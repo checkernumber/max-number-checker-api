@@ -12,6 +12,7 @@ obj/
 .env
 .env.*
 !.env.example
+results.zip
 result.zip
 *.log
 .DS_Store
