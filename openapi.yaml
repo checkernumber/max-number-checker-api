@@ -1,11 +1,12 @@
 openapi: 3.0.3
 info:
   title: MAX Number Checker API
-  version: 1.0.0
-  description: >
-    Official CheckNumber asynchronous file-based API for the MAX
-    product family. Upload an authorized list, poll the task, then download the
-    exported result file. Product limits and result columns are listed in product.json.
+  version: 1.2.0
+  description: 'Official CheckNumber asynchronous file-based API for the MAX product family. Upload an authorized
+    list, poll the task, then download the exported result file. Product limits and result columns are listed
+    in product.json.
+
+    '
   contact:
     name: CheckNumber
     url: https://checknumber.ai/products/max
@@ -16,9 +17,9 @@ externalDocs:
   description: CheckNumber MAX API documentation
   url: https://docs.checknumber.ai/max-checker
 servers:
-  - url: https://api.checknumber.ai
+- url: https://api.checknumber.ai
 security:
-  - ApiKeyAuth: []
+- ApiKeyAuth: []
 paths:
   /v1/tasks:
     post:
@@ -29,31 +30,43 @@ paths:
           multipart/form-data:
             schema:
               type: object
-              required: [file, task_type]
+              required:
+              - file
+              - task_type
               properties:
                 file:
                   type: string
                   format: binary
-                  description: Text file with one identifier per line. Use E.164 phones or valid emails as documented.
+                  description: Text file with one phone per line. Per-task-type upload bounds and minimum billable
+                    quantities are in x-product-limits; accepted upload size is distinct from billing.
                 task_type:
                   type: string
-                  enum: [max, max_full]
+                  enum:
+                  - max
+                  - max_full
       responses:
         '200':
           description: Task accepted by deployments using the legacy success status
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/Task' }
+              schema:
+                $ref: '#/components/schemas/Task'
         '202':
           description: Task accepted
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/Task' }
-        '400': { description: Invalid file, task type, or row count }
-        '401': { description: Missing or invalid API key }
-        '402': { description: Insufficient balance }
-        '413': { description: Uploaded file is too large }
-        '500': { description: Internal server error }
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          description: Invalid file, task type, or row count
+        '401':
+          description: Missing or invalid API key
+        '402':
+          description: Insufficient balance
+        '413':
+          description: Uploaded file is too large
+        '500':
+          description: Internal server error
   /v1/gettasks:
     post:
       summary: Check the status of an asynchronous task
@@ -63,18 +76,24 @@ paths:
           multipart/form-data:
             schema:
               type: object
-              required: [task_id]
+              required:
+              - task_id
               properties:
-                task_id: { type: string }
+                task_id:
+                  type: string
       responses:
         '200':
           description: Current task state
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/Task' }
-        '401': { description: Missing or invalid API key }
-        '404': { description: Task not found }
-        '500': { description: Internal server error }
+              schema:
+                $ref: '#/components/schemas/Task'
+        '401':
+          description: Missing or invalid API key
+        '404':
+          description: Task not found
+        '500':
+          description: Internal server error
   /v1/balance:
     get:
       summary: Get account balance
@@ -83,8 +102,10 @@ paths:
           description: Current balance
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/Balance' }
-        '401': { description: Missing or invalid API key }
+              schema:
+                $ref: '#/components/schemas/Balance'
+        '401':
+          description: Missing or invalid API key
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -94,21 +115,51 @@ components:
   schemas:
     Balance:
       type: object
-      required: [balance]
+      required:
+      - balance
       properties:
-        balance: { type: number, format: double }
+        balance:
+          type: number
+          format: double
     Task:
       type: object
       properties:
-        task_id: { type: string }
-        user_id: { type: string }
+        task_id:
+          type: string
+        user_id:
+          type: string
         status:
           type: string
-          enum: [pending, processing, exported, failed]
-        total: { type: integer }
-        success: { type: integer }
-        failure: { type: integer }
-        result_url: { type: string, format: uri }
-        message: { type: string }
-        created_at: { type: string, format: date-time }
-        updated_at: { type: string, format: date-time }
+          enum:
+          - pending
+          - processing
+          - exported
+          - failed
+        total:
+          type: integer
+        success:
+          type: integer
+        failure:
+          type: integer
+        result_url:
+          type: string
+          format: uri
+        message:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+x-product-limits:
+  max:
+    product_id: 58
+    min_items: 1
+    max_items: 10000000
+    min_billable_numbers: 1000
+  max_full:
+    product_id: 59
+    min_items: 1
+    max_items: 10000000
+    min_billable_numbers: 1000

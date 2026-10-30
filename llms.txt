@@ -21,4 +21,14 @@
 - Do not expose API keys in browser code or commit secrets.
 - An undetermined result is not a confirmed negative.
 
-Last reviewed: 2026-08-18.
+Last reviewed: 2026-10-30.
+
+
+## Upload and billing limits verified 2026-10-30
+
+| Task type | Minimum upload | Maximum upload | Minimum billable quantity |
+| --- | ---: | ---: | ---: |
+| `max` | 1 | 10,000,000 | 1,000 |
+| `max_full` | 1 | 10,000,000 | 1,000 |
+
+Upload minimum and minimum billable quantity are different. A smaller accepted upload can still be billed at the stated minimum. Zero means no billing floor. A wholly failed/unprocessed task is not charged a fabricated minimum. Check current account pricing before submitting.
